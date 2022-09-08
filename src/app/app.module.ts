@@ -16,6 +16,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { NewCourseFormComponent } from './new-course-form/new-course-form.component';
 import { PostsComponent } from './posts/posts.component';
+import { PostService } from './posts/post.service';
 
 
 
@@ -42,7 +43,8 @@ import { PostsComponent } from './posts/posts.component';
     HttpClientModule,
   ],
   providers: [
-    CoursesService //dependency injection registration
+    CoursesService, //dependency injection registration
+    PostService
   ],
   bootstrap: [AppComponent]
 })

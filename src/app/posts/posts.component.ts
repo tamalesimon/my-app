@@ -63,14 +63,16 @@ export class PostsComponent implements OnInit {
     }
 
     deletePost(post : any) {
+      let index = this.posts.indexOf(post);
+      this.posts.splice(index, 1);
+      console.log(post)
+
         this.service.delete(post.id)
         .subscribe({
           next: () => {
-            let index = this.posts.indexOf(post);
-            this.posts.splice(index, 1);
-            console.log(post)
           },
           error: (error: AppError) => {
+            this.posts.splice(index, 0, post);
             if(error instanceof NotFoundError)
               alert('This post has already been deleted.');
             else{

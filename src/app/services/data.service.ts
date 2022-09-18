@@ -30,19 +30,19 @@ export class DataService {
   }
 
   create(resource: any) {
-    return throwError(this.handleError);
-    
-    // return this.http.post(this.url, JSON.stringify(resource)).pipe(
-    //   map(response => response),
-    //   catchError(this.handleError)
-    // );
-  }
-
-  delete(id: any) {
-    return this.http.delete(`${this.url}/${id}`).pipe(
+    return this.http.post(this.url, JSON.stringify(resource)).pipe(
       map(response => response),
       catchError(this.handleError)
     );
+  }
+
+  delete(id: any) {
+    return throwError(this.handleError);
+
+    // return this.http.delete(`${this.url}/${id}`).pipe(
+    //   map(response => response),
+    //   catchError(this.handleError)
+    // );
   }
 
   private handleError(error: Response) {

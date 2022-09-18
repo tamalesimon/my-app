@@ -13,8 +13,8 @@ export class PostsComponent implements OnInit {
     ngOnInit() {
         this.service.getAll()
         .subscribe({
-          next: (response) => {
-            this.posts = response as any[];
+          next: (posts) => {
+            this.posts = posts as any;
           },
           error: (error: AppError) => {
             if (error instanceof AppError)
@@ -29,15 +29,19 @@ export class PostsComponent implements OnInit {
         let post: any = {
             title: titleInput.value
         };
+        this.posts.splice(0, 0, post);
+
         titleInput.value = '';
 
         this.service.create(post)
         .subscribe({
-          next: (response) => {
-            post.id = response;
-            this.posts.splice(0, 0, post);
+          next: (newPost) => {
+            post.id = newPost;
+            
           },
           error: (error: AppError) => {
+            this.posts.splice(0, 1);
+
             if(error instanceof BadRequestError)
               alert('Bad Request')
             else{
@@ -51,8 +55,8 @@ export class PostsComponent implements OnInit {
     updatePost(post : any) {
         this.service.update(post)
         .subscribe({
-          next: (response) => {
-            console.log(response)
+          next: (updatePost) => {
+            console.log(updatePost)
           },
           error: (error: AppError) => {}
         })
@@ -61,11 +65,10 @@ export class PostsComponent implements OnInit {
     deletePost(post : any) {
         this.service.delete(post.id)
         .subscribe({
-          next: (response: any) => {
+          next: () => {
             let index = this.posts.indexOf(post);
-            //index=345;
             this.posts.splice(index, 1);
-            console.log(response)
+            console.log(post)
           },
           error: (error: AppError) => {
             if(error instanceof NotFoundError)

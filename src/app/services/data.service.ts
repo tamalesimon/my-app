@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, map, observable } from 'rxjs';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
 import { BadRequestError } from '../common/bad-request-error';
@@ -15,6 +15,7 @@ export class DataService {
   getAll() {
     return this.http.get(this.url)
         .pipe(
+          map(response => response),
           catchError(this.handleError)
         )
   }
@@ -23,18 +24,23 @@ export class DataService {
     return this.http
       .patch(this.url + '/' + resource.id, JSON.stringify({ isRead: true }))
       .pipe(
+        map(response => response),
         catchError(this.handleError)
       );
   }
 
   create(resource: any) {
-    return this.http.post(this.url, JSON.stringify(resource)).pipe(
-      catchError(this.handleError)
-    );
+    return throwError(this.handleError);
+    
+    // return this.http.post(this.url, JSON.stringify(resource)).pipe(
+    //   map(response => response),
+    //   catchError(this.handleError)
+    // );
   }
 
   delete(id: any) {
     return this.http.delete(`${this.url}/${id}`).pipe(
+      map(response => response),
       catchError(this.handleError)
     );
   }

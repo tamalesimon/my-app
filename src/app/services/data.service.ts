@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { throwError, map, observable } from 'rxjs';
+import { throwError, map } from 'rxjs';
 import { AppError } from '../common/app-error';
 import { NotFoundError } from '../common/not-found-error';
 import { BadRequestError } from '../common/bad-request-error';
@@ -37,12 +37,10 @@ export class DataService {
   }
 
   delete(id: any) {
-    return throwError(this.handleError);
-
-    // return this.http.delete(`${this.url}/${id}`).pipe(
-    //   map(response => response),
-    //   catchError(this.handleError)
-    // );
+    return this.http.delete(`${this.url}/${id}`).pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: Response) {

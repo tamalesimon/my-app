@@ -30,14 +30,13 @@ export class PostsComponent implements OnInit {
             title: titleInput.value
         };
         this.posts.splice(0, 0, post);
-
         titleInput.value = '';
 
         this.service.create(post)
         .subscribe({
           next: (newPost) => {
             post.id = newPost;
-            
+
           },
           error: (error: AppError) => {
             this.posts.splice(0, 1);
@@ -52,7 +51,7 @@ export class PostsComponent implements OnInit {
         });
     }
 
-    updatePost(post : any) {
+    updatePost(post : {}) {
         this.service.update(post)
         .subscribe({
           next: (updatePost) => {
@@ -62,7 +61,7 @@ export class PostsComponent implements OnInit {
         })
     }
 
-    deletePost(post : any) {
+    deletePost(post: any) {
       let index = this.posts.indexOf(post);
       this.posts.splice(index, 1);
       console.log(post)

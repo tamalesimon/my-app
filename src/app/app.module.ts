@@ -58,7 +58,7 @@ import { HomeComponent } from './home/home.component';
     RouterModule.forRoot([
       {path:'', component: HomeComponent},
       {path:'followers', component: GithubFollowersComponent},
-      {path:'profile/:username', component: GithubProfileComponent},
+      {path:'followers/:id', component: GithubProfileComponent},
       {path:'posts', component: PostsComponent},
       {path:'**', component: NotFoundComponent}
     ])
